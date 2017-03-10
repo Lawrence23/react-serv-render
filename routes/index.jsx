@@ -6,19 +6,14 @@ var router = require('express').Router();
 router.get('*', function(request, response) {
 	var props = { title: 'Universal React App' };
 	ReactRouter.match({
-		routes: (
-			<ReactRouter.Router history={ReactRouter.browserHistory}>
-				<ReactRouter.Route path='/' component={require('../Component.jsx')}>
-				</ReactRouter.Route>
-			</ReactRouter.Router>
-		),
+		routes: require('./routes.jsx'),
 		location: request.url
 	}, function(error, redirectLocation, renderProps) {
 		if (renderProps) {
 			var html = ReactDOMServer.renderToString(
 				<ReactRouter.RouterContext {...renderProps}
 					createElement = {function (Component, renderProps) {
-						return <Component {...renderProps} {...props} />;
+						return <Component {...renderProps} custom={props} />;
 					}}
 				/>
 			);
